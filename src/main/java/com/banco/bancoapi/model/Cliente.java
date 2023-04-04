@@ -16,7 +16,7 @@ import lombok.Setter;
 @Table(schema="banco")
 public class Cliente {
 	@Id
-	@SequenceGenerator(name = "pk_clientes", sequenceName ="clientes_id_seq" , allocationSize = 1, schema="banco")
+	@SequenceGenerator(name = "pk_cliente", sequenceName ="clientes_id_seq" , allocationSize = 1, schema="banco")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_cliente")
 	private Integer id;
 	
