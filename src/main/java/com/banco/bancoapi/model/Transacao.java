@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,12 +30,12 @@ public class Transacao {
 	
 	private LocalDateTime dataHora;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name="id_contaOrigem")
-	private Integer contaOrigemId;
+	private Conta contaOrigem;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name="id_contaDestino")
-	private Integer contaDestinoId;
+	private Conta contaDestino;
 
 }
