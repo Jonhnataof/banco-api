@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,8 +27,9 @@ public class Conta {
 	private String numeroConta;
 	
 	private Double saldo;
-	@OneToMany
+	
+	@ManyToOne
 	@JoinColumn(name="id_cliente")
-	private Cliente clienteId;
+	private Cliente cliente;
 
 }
