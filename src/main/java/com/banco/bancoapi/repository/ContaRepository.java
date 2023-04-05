@@ -6,5 +6,5 @@ import com.banco.bancoapi.model.Conta;
 
 
 public interface ContaRepository extends CrudRepository<Conta, Integer>{
-
+	Conta findByNumeroConta(String numeroConta);
 }
