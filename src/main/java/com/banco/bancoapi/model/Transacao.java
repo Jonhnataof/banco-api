@@ -26,6 +26,8 @@ public class Transacao {
 	
 	private String tipo;
 	
+	private String descricao;
+	
 	private Double valor;
 	
 	private LocalDateTime dataHora;
