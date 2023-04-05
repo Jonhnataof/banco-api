@@ -33,8 +33,18 @@ public class TransacaoService {
 	public void transferir(TransferenciaDTO transferencia) {
 		
 		Conta contaOrigem = contaRepository.findByNumeroConta(transferencia.getContaOrigem());
+		Double novoSaldoOrigem = contaOrigem.getSaldo() - transferencia.getValor();
+		contaOrigem.setSaldo(novoSaldoOrigem);
+		
+		contaRepository.save(contaOrigem);
+		
 		Conta contaDestino = contaRepository.findByNumeroConta(transferencia.getContaDestino()); 
-
+		Double novoSaldoDestino = contaDestino.getSaldo() + transferencia.getValor();
+		contaDestino.setSaldo(novoSaldoDestino);
+		
+		contaRepository.save(contaDestino);
+		
+		
 		Transacao transferenciaSai = new Transacao();
 		transferenciaSai.setTipo("TRANSFERENCIA_SAI");
 		transferenciaSai.setValor(transferencia.getValor());
@@ -56,6 +66,9 @@ public class TransacaoService {
 	public void depositar(DepositoDTO deposito) {
 		
 		Conta conta = contaRepository.findByNumeroConta(deposito.getNumeroConta());
+		Double novoSaldo = conta.getSaldo() + deposito.getValor();
+		conta.setSaldo(novoSaldo);
+		contaRepository.save(conta);
 		
 		Transacao transacaoDeposito = new Transacao();
 		transacaoDeposito.setConta(conta);
