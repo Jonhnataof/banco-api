@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.banco.bancoapi.dto.DepositoDTO;
 import com.banco.bancoapi.dto.TransferenciaDTO;
 import com.banco.bancoapi.model.Transacao;
 import com.banco.bancoapi.service.TransacaoService;
@@ -25,6 +26,15 @@ public class TransacaoConntroller {
 	@Autowired
 	private TransacaoService transacaoService;
 	
+	@PostMapping("/deposito")
+	public ResponseEntity<String> deposito (@RequestBody DepositoDTO deposito ) {
+		
+		transacaoService.depositar(deposito);
+		
+		return ResponseEntity.ok("Deposito realizado com sucesso!");
+		
+		
+	}
 
 
 	@PostMapping("/transferencia")
