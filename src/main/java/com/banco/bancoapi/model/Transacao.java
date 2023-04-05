@@ -26,16 +26,12 @@ public class Transacao {
 	
 	private String tipo;
 	
-	private Double decimal;
+	private Double valor;
 	
 	private LocalDateTime dataHora;
 	
 	@ManyToOne
-	@JoinColumn(name="id_contaOrigem")
-	private Conta contaOrigem;
-	
-	@ManyToOne
-	@JoinColumn(name="id_contaDestino")
-	private Conta contaDestino;
+	@JoinColumn(name="id_conta")
+	private Conta conta;
 
 }
