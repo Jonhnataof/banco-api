@@ -26,6 +26,7 @@ public class ContaService {
 		if (conta.getId()== null) {
 			conta.setSaldo(0.0);
 		}
+		
 		contaRepository.save(conta);
 	}
 
