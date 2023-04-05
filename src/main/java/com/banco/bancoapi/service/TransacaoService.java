@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.banco.bancoapi.dto.DepositoDTO;
 import com.banco.bancoapi.dto.TransferenciaDTO;
 import com.banco.bancoapi.model.Conta;
 import com.banco.bancoapi.model.Transacao;
@@ -50,8 +51,21 @@ public class TransacaoService {
 		
 		transacaoRepository.save(transferenciaEnt);
 		
-		
 		}
+	
+	public void depositar(DepositoDTO deposito) {
+		
+		Conta conta = contaRepository.findByNumeroConta(deposito.getNumeroConta());
+		
+		Transacao transacaoDeposito = new Transacao();
+		transacaoDeposito.setConta(conta);
+		transacaoDeposito.setDescricao(deposito.getDescricao());
+		transacaoDeposito.setValor(deposito.getValor());
+		transacaoDeposito.setTipo("DEPOSITO");
+		transacaoDeposito.setDataHora(LocalDateTime.now());
+		
+		transacaoRepository.save(transacaoDeposito);
+	}
 		
 	public void delete(Integer id) {
 		transacaoRepository.deleteById(id);
