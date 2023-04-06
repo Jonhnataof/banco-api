@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.banco.bancoapi.exception.BancoBaseException;
+import com.banco.bancoapi.exception.EmailJaUtilizadoException;
 import com.banco.bancoapi.model.Cliente;
 import com.banco.bancoapi.repository.ClienteRepository;
 import com.banco.bancoapi.repository.ContaRepository;
@@ -27,8 +29,8 @@ public class ClienteService {
 		Cliente clienteEmail = clienteRepository.findByEmail(cliente.getEmail());
 		if (clienteEmail == null || clienteEmail.getId() == cliente.getId()) {
 			clienteRepository.save(cliente);
-		}else {
-			// Return exceção TODO
+		} else {
+			throw new EmailJaUtilizadoException();
 		}
 
 	}
