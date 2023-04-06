@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.banco.bancoapi.dto.DepositoDTO;
 import com.banco.bancoapi.dto.TransferenciaDTO;
+import com.banco.bancoapi.exception.BancoBaseException;
 import com.banco.bancoapi.model.Transacao;
 import com.banco.bancoapi.service.TransacaoService;
 
@@ -39,11 +40,16 @@ public class TransacaoConntroller {
 
 	@PostMapping("/transferencia")
 	public ResponseEntity<String> transferencia (@RequestBody TransferenciaDTO transferencia) {
+		try {
+			transacaoService.transferir(transferencia);
+			return ResponseEntity.ok("Transferencia realizada com sucesso!");
+		}catch (BancoBaseException exception) {
+			return ResponseEntity.badRequest().body(exception.getMessage());
+		}catch (Exception exception ) {
+			return ResponseEntity.internalServerError().body(exception.getMessage());
+		}
 		
 		
-		transacaoService.transferir(transferencia);
-
-		return ResponseEntity.ok("Transferencia realizada com sucesso!");
 	}
 
 	
