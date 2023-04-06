@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.banco.bancoapi.exception.BancoBaseException;
 import com.banco.bancoapi.model.Cliente;
 import com.banco.bancoapi.service.ClienteService;
 
@@ -23,7 +24,7 @@ import com.banco.bancoapi.service.ClienteService;
 public class ClienteController {
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@GetMapping()
 	public ResponseEntity<List<Cliente>> findAll() {
 		List<Cliente> result = clienteService.findAll();
@@ -43,23 +44,34 @@ public class ClienteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> save(@RequestBody Cliente cliente) {
-		
-		clienteService.save(cliente);
+	public ResponseEntity<String> save(@RequestBody Cliente cliente) {
+		try {
+			clienteService.save(cliente);
 
-		return ResponseEntity.ok(cliente);
+			return ResponseEntity.ok("Cliente criado com sucesso " + cliente.getId());
+		} catch (BancoBaseException exception) {
+			return ResponseEntity.badRequest().body(exception.getMessage());
+		} catch (Exception exception) {
+			return ResponseEntity.internalServerError().body(exception.getMessage());
+		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Cliente> update(@PathVariable Integer id, @RequestBody Cliente cliente) {
-		Cliente clienteAtualizado = clienteService.findById(id).get();
-		clienteAtualizado.setNome(cliente.getNome());
-		clienteAtualizado.setEmail(cliente.getEmail());
-		clienteAtualizado.setEndereco(cliente.getEndereco());
-		clienteAtualizado.setTelefone(cliente.getTelefone());
-		clienteService.save(clienteAtualizado);
+	public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody Cliente cliente) {
+		try {
+			Cliente clienteAtualizado = clienteService.findById(id).get();
+			clienteAtualizado.setNome(cliente.getNome());
+			clienteAtualizado.setEmail(cliente.getEmail());
+			clienteAtualizado.setEndereco(cliente.getEndereco());
+			clienteAtualizado.setTelefone(cliente.getTelefone());
+			clienteService.save(clienteAtualizado);
 
-		return ResponseEntity.ok(clienteAtualizado);
+			return ResponseEntity.ok("Cliente atualizado com sucesso!");
+		} catch (BancoBaseException exception) {
+			return ResponseEntity.badRequest().body(exception.getMessage());
+		} catch (Exception exception) {
+			return ResponseEntity.internalServerError().body(exception.getMessage());
+		}
 	}
 
 	@DeleteMapping("/{id}")
@@ -68,6 +80,5 @@ public class ClienteController {
 
 		return ResponseEntity.ok("Deletado");
 	}
-
 
 }
